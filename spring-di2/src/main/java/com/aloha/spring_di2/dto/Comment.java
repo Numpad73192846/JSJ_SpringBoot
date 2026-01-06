@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class Comment extends Post {
 	
 	private Long no;
 	private String id;

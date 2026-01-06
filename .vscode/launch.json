@@ -39,6 +39,16 @@
 			"projectName": "spring-mvc",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-SpringDi2Application<spring-di2>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.spring_di2.SpringDi2Application",
+			"projectName": "spring-di2",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }

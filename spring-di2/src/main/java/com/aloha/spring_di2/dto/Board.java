@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Board extends Post {
 	
 	private Long no;
 	private String id;
