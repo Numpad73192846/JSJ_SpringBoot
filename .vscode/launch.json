@@ -19,6 +19,26 @@
 			"projectName": "spring-di",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-SpringAopApplication<spring-aop>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.spring_aop.SpringAopApplication",
+			"projectName": "spring-aop",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-SpringMvcApplication<spring-mvc>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.spring_mvc.SpringMvcApplication",
+			"projectName": "spring-mvc",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aloha.spring_di2.dto.Board;
 
-@Repository
+@Repository		// DAO 역할로 빈 등록
 public class BoardDAO {
 	
 	public List<Board> list() {
