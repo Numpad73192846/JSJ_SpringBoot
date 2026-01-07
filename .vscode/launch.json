@@ -49,6 +49,16 @@
 			"projectName": "spring-di2",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-SpringDi3Application<spring-di3>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.spring_di3.SpringDi3Application",
+			"projectName": "spring-di3",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }
