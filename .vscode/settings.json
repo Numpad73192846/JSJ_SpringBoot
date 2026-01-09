@@ -1,6 +1,13 @@
 {
 	"java.configuration.updateBuildConfiguration": "interactive",
 	"cSpell.words": [
+		"appender",
+		"Gmarket",
+		"jdbc",
+		"jdbcapi",
+		"logback",
+		"modulelist",
+		"mybatis",
 		"projectlombok",
 		"springframework",
 		"thymeleaf"

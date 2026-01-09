@@ -301,6 +301,12 @@ public class RequestController {
 	@Value("${upload.path}")
 	private String uploadPath;
 
+	/**
+	 *  파일 업로드
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@PostMapping("/file")
 	public String fileUpload(@RequestParam("file") MultipartFile file) throws IOException {
