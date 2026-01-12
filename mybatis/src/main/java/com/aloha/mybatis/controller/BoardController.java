@@ -13,6 +13,9 @@ import com.aloha.mybatis.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -50,10 +53,49 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	/**
+	 * 게시글 조회 화면
+	 * - /board/detail?no=
+	 * @param no
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
 	@GetMapping("/detail")
-	public String detail(@RequestParam("no") Integer no, Model model) {
-		return new String();
+	public String detail(@RequestParam("no") Integer no, Model model) throws Exception {
+		// 데이터 요청
+		Board board = boardService.select(no);
+
+		// 모델 등록
+		model.addAttribute("board", board);
+
+		// 뷰 지정
+		return "board/detail";
 	}
+	
+	/**
+	 * 게시글 등록 화면
+	 * @return
+	 */
+	@GetMapping("/create")
+	public String create() {
+		return "board/create";
+	}
+
+	@PostMapping("/create")
+	public String create(Board board) throws Exception {
+		// 데이터 요청
+		boolean result = boardService.insert(board);
+
+		// 리다이렉트
+		// 데이터 처리 성공
+		if ( result ) {
+			return "redirect:board/list";
+		}
+		// 데이터 처리 실패
+		return "redirect:board/create?error";
+	}
+	
 	
 
 }
