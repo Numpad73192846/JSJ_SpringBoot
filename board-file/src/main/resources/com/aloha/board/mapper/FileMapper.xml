@@ -29,10 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 파일 등록 -->
     <insert id="insert">
         INSERT INTO file(
-			id, parent_table, parent_no, name, path, size, sort_order, is_main
+			id, parent_table, parent_no, name, path, size, content_type, sort_order, is_main
 			)
         VALUES (
-			#{id}, #{parentTable}, #{parentNo}, #{name}, #{path}, #{size}, #{sortOrder}, #{isMain}
+			#{id}, #{parentTable}, #{parentNo}, #{name}, #{path}, #{size}, #{contentType}, #{sortOrder}, #{isMain}
 		)
     </insert>
 	

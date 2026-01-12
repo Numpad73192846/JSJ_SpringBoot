@@ -1,0 +1,59 @@
+package com.aloha.mybatis.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.aloha.mybatis.dto.Board;
+import com.aloha.mybatis.service.BoardService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+
+/**
+ * [GET]	- /board/list		: 게시글 목록 화면
+ * [GET]	- /board/detail		: 게시글 조회 화면
+ * [GET]	- /board/create		: 게시글 등록 화면
+ * [POST]	- /board/create		: 게시글 등록 처리
+ * [GET]	- /board/update		: 게시글 수정 화면
+ * [POST]	- /board/update		: 게시글 수정 처리
+ * [POST]	- /board/delete		: 게시글 삭제 처리
+ */
+@Slf4j						// 로그 어노테이션
+@Controller					// 컨트롤러 빈으로 등록
+@RequestMapping("/board")	// 클레스 레벨 요청 경로 매핑
+@RequiredArgsConstructor
+public class BoardController {
+	
+	private BoardService boardService;
+
+	/**
+	 * 게시글 목록 화면
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/list")
+	public String list(Model model) throws Exception {
+		// 데이터 요청
+		List<Board> list = boardService.list();
+		
+		// 모델 등록
+		model.addAttribute("list", list);
+		// 뷰 지정
+		return "board/list";
+	}
+	
+	@GetMapping("/detail")
+	public String detail(@RequestParam("no") Integer no, Model model) {
+		return new String();
+	}
+	
+
+}
