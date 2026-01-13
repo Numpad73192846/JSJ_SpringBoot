@@ -5,6 +5,7 @@
 		"Gmarket",
 		"jdbc",
 		"jdbcapi",
+		"jquery",
 		"logback",
 		"modulelist",
 		"mybatis",

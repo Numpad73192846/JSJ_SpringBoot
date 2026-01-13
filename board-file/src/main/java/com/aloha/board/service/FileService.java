@@ -23,6 +23,10 @@ public interface FileService {
     public Boolean delete(Integer no) throws Exception;
     public Boolean deleteById(String id) throws Exception;
 
+    // 파일 업로드
 	public int upload(List<MultipartFile> files, ParentTable parentTable, Integer parentNo) throws Exception;
+
+    // 부모 기준 목록
+    public List<Files> listByParent(Files files) throws Exception;
     
 }
