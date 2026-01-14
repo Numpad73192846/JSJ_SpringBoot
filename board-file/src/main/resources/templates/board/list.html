@@ -40,15 +40,13 @@
 							</tr>
 						</th:block>
 						<th:block th:each="board : ${list}">
-							<tr class="align-middle text-center">
+							<tr class="align-middle">
 								<td>
-									<!-- <th:block th:if="${ board.fileList != null && !board.fileList.isEmpty() }">
-										<img th:src="@{/files/{id}(id=${board.fileList[0].id})}" class="img-fluid" />
-									</th:block> -->
-									<th:block th:if="${ board.fileList != null && !board.fileList.isEmpty() }">
-										<th:block th:each=" file : ${board.fileList}">
-											<img th:if="${file.isMain}" th:src="@{/files/{id}(id=${file.id})}" class="img-fluid" />
-										</th:block>
+									<th:block th:if="${ board.mainFile != null }">
+										<img th:src="@{/files/{id}(id=${board.mainFile.id})}" class="img-fluid" />
+									</th:block>
+									<th:block th:if="${ board.mainFile == null }">
+										<img src="https://placehold.co/200x100?text=No+Image" class="img-fluid" />
 									</th:block>
 								</td>
 								<td th:text="${board.no}">번호</td>

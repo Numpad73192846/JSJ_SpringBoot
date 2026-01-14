@@ -16,6 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
 
+        <!-- 1:1 매핑 -->
+        <association property="mainFile"
+                     javaType="Files"
+                     select="com.aloha.board.mapper.FileMapper.selectByParent"
+                     column="{parentTable=parent_table, parentNo=no}"
+        />
+
         <!-- M:N 매핑 -->
         <collection property="fileList"
                     ofType="Files"

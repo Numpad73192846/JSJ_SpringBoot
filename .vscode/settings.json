@@ -2,7 +2,11 @@
 	"java.configuration.updateBuildConfiguration": "interactive",
 	"cSpell.words": [
 		"appender",
+		"classappend",
+		"classappnd",
+		"filesorted",
 		"Gmarket",
+		"IFNULL",
 		"jdbc",
 		"jdbcapi",
 		"jquery",
