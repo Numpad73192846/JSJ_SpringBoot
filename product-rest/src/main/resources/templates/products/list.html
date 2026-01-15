@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" stock="width=device-width, initial-scale=1.0">
+	<productName>XMLHttpRequest</productName>
+</head>
+<body>
+	<h1>XMLHttpRequest</h1>
+
+	<h5>상품 조회</h5>
+	<label for="no">상품 번호</label>
+	<input type="text" name="no" id="no">
+	<button onclick="getProduct()">조회</button>
+	<hr>
+
+	<div>
+		<h5>조회된 상품 정보</h5>
+		<h3><span>상품명 : </span><span id="productName"></span></h3>
+		<h3><span>가격 : </span><span id="price"></span></h3>
+		<h3><span>남은 수량 : </span><span id="stock"></span></h3>
+	</div>
+
+	<hr>
+
+	<h3>상품 등록/수정/삭제</h3>
+	<form action="/products" method="post">
+		<table>
+			<tr>
+				<td><label for="productName">상품명</label></td>
+				<td><input type="text" name="productName" id="input-productName"></td>
+			</tr>
+			<tr>
+				<td><label for="price">가격</label></td>
+				<td><input type="text" name="price" id="input-price"></td>
+			</tr>
+			<tr>
+				<td><label for="stock">남은 수량</label></td>
+				<td><input type="text" name="stock" id="input-stock"></td>
+			</tr>
+			<tr>
+				<td><label for="updateNo">상품 번호</label></td>
+				<td><input type="text" name="no" id="input-no" placeholder="수정/삭제 번호"></td>
+			</tr>
+		</table>
+		<button type="button" onclick="insert()">등록하기</button>
+		<button type="button" onclick="update()">수정하기</button>
+		<button type="button" onclick="remove()">삭제하기</button>
+	</form>
+
+
+	<hr>
+
+	<h3>상품 목록</h3>
+	<table id="product-list" border="1">
+		<tr id="product-productName">
+			<th width="50">번호</th>
+			<th width="300">상품명</th>
+			<th width="100">가격</th>
+			<th width="200">남은 수량</th>
+		</tr>
+		<tbody id="product-body">
+			<tr id="product-data">
+				<td colspan="5" align="center">조회된 데이터가 없습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		let request
+		// 게시글 조회
+		function getProduct() {
+			// XMLHttpRequest 객체 생성
+			request = new XMLHttpRequest()
+			
+			// 입력한 글 번호 가져오기
+			let id = document.getElementById("id").value
+			
+			// 요청 설정
+			let url = `http://localhost:8080/products/${id}`
+			request.open('GET', url, true)
+			
+			// onload : 
+			// 요청 완료 및 응답 성공
+			// request.responseText = 응답 데이터
+			request.onload = function() {
+				let response = ''
+
+				if ( request.status == 200 ) {
+					response = request.responseText
+
+					if ( response == '' ) {
+						alert('응답된 데이터가 없습니다.')
+					}
+					else {
+						// JSON.parse() : JSON문자열 -> JS 객체 변환
+						let product = JSON.parse(response)
+						
+						let productName = document.getElementById("productName")
+						let price = document.getElementById("price")
+						let stock = document.getElementById("stock")
+						
+						productName.textContent = product.productName
+						price.textContent = product.price
+						stock.textContent = product.stock
+						}
+
+				}
+
+
+			}
+
+			// 요청 전송
+			request.send()
+			
+		}
+
+		// 게시글 조회
+		function getList() {
+			// XMLHttpRequest 객체 생성
+			request = new XMLHttpRequest()
+			
+			// 요청 설정
+			let url = `http://localhost:8080/products`
+			request.open('GET', url, true)
+			
+			// onload : 
+			// 요청 완료 및 응답 성공
+			request.onload = function() {
+				let response = ''
+
+				if ( request.status == 200 ) {
+					response = request.responseText
+
+					let productList = JSON.parse(response)
+
+					// 데이터가 없을 때
+					if ( productList.length == 0 ) {
+						alert('응답된 데이터가 없습니다.')
+					}
+
+					// 데이터 있을 때
+					else {
+						let $productBody = document.getElementById('product-body')
+
+						// 데이터 초기화
+						// $boardData.remove()
+						$productBody.innerHTML = ''
+
+						let tr = '' 
+						for( const product of productList ) {
+							tr += `<tr>
+									   <td>${product.no}</td>
+									   <td>${product.productName}</td>
+									   <td>${product.price}원</td>
+									   <td>${product.stock}</td>
+								   </tr>`
+						}
+						$productBody.innerHTML = tr
+						
+					}
+
+				}
+
+			}
+	
+			// 요청 전송
+			request.send()
+			
+		}
+		// 게시글 목록 함수 호출
+		getList()
+
+		// 게시글 등록
+		function insert() {
+			request = new XMLHttpRequest()
+
+			// 입력정보
+			let productName = document.getElementById("input-productName").value
+			let price = document.getElementById("input-price").value
+			let stock = document.getElementById("input-stock").value
+
+			// 객체
+			let data = {
+				'productName' : productName,
+				'price' : price,
+				'stock' : stock,
+			}
+
+			// 요청 설정
+			let url = `http://localhost:8080/products`
+			request.open('POST', url, true)
+
+			// 헤더 설정
+			request.setRequestHeader("Content-Type", "application/json")
+
+			// 응답 확인
+			request.onload = function() {
+				let response = ''
+				if ( request.status == 201 ) {
+					response = request.responseText
+					alert(response)
+					// 등록 후 목록 갱신
+					getList()
+				}
+
+				if ( request.status == 400 ) {
+					alert("클라이언트의 잘못된 요청")
+				}
+
+				if ( request.status == 500 ) {
+					alert("서버 내부 에러")
+				}
+			}
+			// 요청 전송
+			// JSON.stringify() : JS 객체 -> JSON 문자열 변환
+			request.send( JSON.stringify(data) )
+		}
+
+		// 게시글 수정
+		function update() {
+			request = new XMLHttpRequest()
+
+			// 입력 정보
+			let no = document.getElementById("input-no").value
+			let productName = document.getElementById("input-productName").value
+			let price = document.getElementById("input-price").value
+			let stock = document.getElementById("input-stock").value
+
+			// 객체
+			let data = {
+				'no' : no,
+				'productName' : productName,
+				'price' : price,
+				'stock' : stock
+			}
+
+			// 요청 설정
+			let url = `http://localhost:8080/products`
+			request.open('PUT', url, true)
+
+			// 헤더 설정
+			request.setRequestHeader("Content-Type", "application/json")
+
+			// 응답 확인
+			request.onload = function() {
+				let response = ''
+
+				// 요청 성공
+				if ( request.status == 200 ) {
+					response = request.responseText
+					alert(response)
+					getList()
+				}
+
+				// 요청 실패
+				if ( request.status == 400 ) {
+					alert("클라이언트의 잘못된 요청")
+				}
+
+				if ( request.status == 500 ) {
+					alert("서버 내부 에러")
+				}
+
+			}
+			// 요청 전송
+			// JSON.stringify(data) : 객체 --> JSON 문자열로 변환
+			request.send( JSON.stringify(data) )
+		}
+
+		// 게시글 삭제
+		function remove() {
+			request = new XMLHttpRequest()
+
+			// 입력 정보
+			let no = document.getElementById("input-no").value
+
+			// DELETE 요청 방식은 요청 데이터를 URL 에 포함하여 전송한다
+			// 요청 설정
+			let url = `http://localhost:8080/products/${no}`
+			request.open('DELETE', url, true)
+
+			// 응답 확인
+			request.onload = function() {
+				let response = ''
+
+				// 요청 성공
+				if ( request.status == 200 ) {
+					response = request.responseText
+					alert(response)
+					getList()
+				}
+
+				// 요청 실패
+				if ( request.status == 400 ) {
+					alert("클라이언트의 잘못된 요청")
+				}
+
+				if ( request.status == 500 ) {
+					alert("서버 내부 에러")
+				}
+
+			}
+			// 요청 전송
+			request.send()
+		}
+		</script>
+</body>
+</html>

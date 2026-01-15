@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.aloha.product_rest.mapper.ProductMapper">
+
+	<resultMap id="productMap" type="Product">
+		<id property="no" column="no"/>
+		<result property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="productName" column="product_name"/>
+		<result property="price" column="price"/>
+		<result property="stock" column="stock"/>
+	</resultMap>
+
+	<!-- 상품 목록 -->
+	<select id="list" resultType="Product">
+		SELECT *
+		FROM product
+		ORDER BY no ASC
+	</select>
+
+	<!-- 상품 조회 -->
+	<select id="select" resultType="Product">
+		SELECT *
+		FROM product
+		WHERE no = #{no}
+	</select>
+
+	<select id="selectById" resultType="Product">
+		SELECT *
+		FROM product
+		WHERE id = #{id}
+	</select>
+
+	<!-- 상품 등록 -->
+	<insert id="insert">
+		INSERT INTO product ( id, product_name, price, stock )
+		VALUES ( #{id}, #{productName}, #{price}, #{stock} )
+	</insert>
+
+	<!-- 상품 수정 -->
+	<update id="update">
+		UPDATE product
+			<set>
+				<if test="productName != null">product_name = #{productName},</if>
+				<if test="price != null">price = #{price},</if>
+				<if test="stock != null">stock = #{stock}</if>
+			</set>
+		WHERE no = #{no}
+	</update>
+
+	<update id="updateById">
+		UPDATE product
+			<set>
+				<if test="productName != null">product_name = #{productName},</if>
+				<if test="price != null">price = #{price},</if>
+				<if test="stock != null">stock = #{stock}</if>
+			</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 상품 삭제 -->
+	<delete id="delete">
+		DELETE FROM product
+		WHERE no = #{no}
+	</delete>
+
+	<!-- 상품 삭제 -->
+	<delete id="deleteById">
+		DELETE FROM product
+		WHERE id = #{id}
+	</delete>
+
+</mapper>

@@ -13,8 +13,13 @@
 		"logback",
 		"modulelist",
 		"mybatis",
+		"navigatepage",
+		"Nums",
+		"pagehelper",
 		"projectlombok",
+		"Springdoc",
 		"springframework",
-		"thymeleaf"
+		"thymeleaf",
+		"webmvc"
 	]
 }
