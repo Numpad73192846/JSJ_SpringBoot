@@ -19,6 +19,7 @@
 		"projectlombok",
 		"Springdoc",
 		"springframework",
+		"springsecurity",
 		"thymeleaf",
 		"webmvc"
 	]

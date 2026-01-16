@@ -129,6 +129,26 @@
 			"projectName": "product-rest",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-BoardApplication<board-filter>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.board.BoardApplication",
+			"projectName": "board-filter",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-SecurityApplication<security>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.aloha.security.SecurityApplication",
+			"projectName": "security",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }
