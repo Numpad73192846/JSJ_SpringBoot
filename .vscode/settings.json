@@ -21,6 +21,7 @@
 		"springframework",
 		"springsecurity",
 		"thymeleaf",
+		"ultraq",
 		"webmvc"
 	]
 }

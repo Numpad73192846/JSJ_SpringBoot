@@ -1,22 +1,63 @@
 package com.aloha.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aloha.security.dto.UserAuth;
 import com.aloha.security.dto.Users;
 import com.aloha.security.mapper.UserMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserMapper userMapper;
+	// @Autowired
+	// private UserMapper userMapper;
+	
+	// @Autowired
+	// private PasswordEncoder passwordEncoder;
+	
+	private final UserMapper userMapper;
+	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authenticationManager;
+	
+	@Override
+    public boolean login(Users user, HttpServletRequest request) throws Exception {
+        // 💍 토큰 생성
+        String username = user.getUsername();    // 아이디
+        String password = user.getPassword();    // 암호화되지 않은 비밀번호
+        UsernamePasswordAuthenticationToken token 
+            = new UsernamePasswordAuthenticationToken(username, password);
+        
+        // 토큰을 이용하여 인증
+        Authentication authentication = authenticationManager.authenticate(token);
+        
+        // 인증 여부 확인
+        boolean result = authentication.isAuthenticated();
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+        // 인증이 성공하면 SecurityContext에 설정
+        if (result) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            // 세션에 인증 정보 설정 (세션이 없으면 새로 생성)
+            HttpSession session = request.getSession(true);  // 세션이 없으면 새로 생성
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+        }
+
+        return result;
+    }
 
 	@Override
 	public Users select(String id) throws Exception {
@@ -25,11 +66,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public int join(Users user) throws Exception {
-		String username = user.getName();
+		String username = user.getUsername();
 		String password = user.getPassword();
 		String encodedPassword = passwordEncoder.encode(password);
 		user.setPassword(encodedPassword);
+
+		log.info("save password = {}", user.getPassword());
 
 		// 회원 등록
 		int result = userMapper.join(user);
@@ -47,6 +91,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int update(Users user) throws Exception {
+		// 비밀번호 변경하는 경우 암호화 처리
+		String password = user.getPassword();
+		if ( password != null && !password.isEmpty() ) {
+			// 비밀번호 암호화
+			String encodedPassword = passwordEncoder.encode(password);
+			user.setPassword(encodedPassword);
+		}
+
 		int result = userMapper.update(user);
 		return result;
 
