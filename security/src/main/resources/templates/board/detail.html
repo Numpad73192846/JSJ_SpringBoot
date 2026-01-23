@@ -34,7 +34,10 @@
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-center">
               <button type="button" class="btn btn-outline-primary w-100" onclick="moveList()">목록</button>
-              <button type="button" class="btn btn-primary w-100" onclick="moveUpdate()">수정</button>
+              <!-- 관리자 작성자 검증 -->
+              <th:block th:if="${ #authorization.expression('hasRole(''ADMIN'')') or @BoardService.isOwner( board.id, #authentication.principal.user.no )}">
+                <button type="button" class="btn btn-primary w-100" onclick="moveUpdate()">수정</button>
+              </th:block>
             </div>
           </form>
         </div>

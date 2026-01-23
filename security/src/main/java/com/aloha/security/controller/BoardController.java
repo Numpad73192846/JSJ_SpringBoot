@@ -102,7 +102,8 @@ public class BoardController {
 	 *   : "@빈이름" 형태로 특정 빈의 메소드를 호출 할 수 있다.
 	 * * 여기서는 @BoardService.isOwner( {id}, {userNo} )
 	 */
-	@PreAuthorize(" #p1 != null and @BoardService.isOwner( #p1, authentication.principal.user.no ) ")
+	// 관리자 작성자 검증
+	@PreAuthorize(" (hasRole('ADMIN')) or #p1 != null and @BoardService.isOwner( #p1, authentication.principal.user.no ) ")
 	@GetMapping("/update/{id}")
 	public String update(
 		Model model,
@@ -116,7 +117,8 @@ public class BoardController {
 	}
 	
 	// 게시글 수정 처리
-	@PreAuthorize(" #p0 != null and @BoardService.isOwner( #p0.id, authentication.principal.user.no ) ")
+	// 관리자 작성자 검증
+	@PreAuthorize(" (hasRole('ADMIN')) or #p0 != null and @BoardService.isOwner( #p0.id, authentication.principal.user.no ) ")
 	@PutMapping("")
 	public ResponseEntity<?> update(@RequestBody Board board) {
 		boolean result;
@@ -133,7 +135,8 @@ public class BoardController {
 	}
 	
 	// 게시글 삭제 처리
-	@PreAuthorize(" #p0 != null and @BoardService.isOwner( #p0, authentication.principal.user.no ) ")
+	// 관리자 작성자 검증
+	@PreAuthorize(" (hasRole('ADMIN')) or #p0 != null and @BoardService.isOwner( #p0, authentication.principal.user.no ) ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") String id) {
 		boolean result;
